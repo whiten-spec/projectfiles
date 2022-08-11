@@ -1,0 +1,15 @@
+#mainnav{
+  list-style: none;
+}
+#mainnav li{
+  margin-left: 15px;
+  line-height: 36px;
+}
+.protectionRadius{
+   padding-left: 15px;
+    clear: both;
+    position: relative;
+    top: -10px;
+    font-size: 15px;
+    color: #222;
+}

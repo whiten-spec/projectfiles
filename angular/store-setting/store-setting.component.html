@@ -1,0 +1,18 @@
+<div class="store-total">
+    <div class="head">
+        <span class="title_span_1 has_bottom_border" (click)="titleClick('1')">存庫區域</span>
+        <span class="title_span_2" (click)="titleClick('2')">物品類型</span>
+        <span class="title_span_3" (click)="titleClick('3')">出庫類型</span>
+    </div>
+    <div class="body">
+        <div *ngIf="curType === '1'">
+            <store-area></store-area>
+        </div>
+        <div *ngIf="curType==='2'">
+            <material-type></material-type>
+        </div>
+        <div *ngIf="curType === '3'">
+            <out-type></out-type>
+        </div>
+    </div>
+</div>

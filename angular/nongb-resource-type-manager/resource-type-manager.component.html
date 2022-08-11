@@ -1,0 +1,139 @@
+<style>
+  .btn-primary {
+    background-color: transparent;
+    border: 0;
+    color: #000;
+  }
+  .btn-del {
+    background-color: transparent;
+    border: 0;
+    color: #fa0505;
+  }
+  .smallBtn {
+    background-color: #00785d;
+    border: 0;
+  }
+</style>
+<div class="condition condition1">
+  <label class="control-label" style="margin-top: 18px;margin-left: 15px">{{ '關鍵字搜索' | translate }}</label>
+  <input ngModel="" (ngModelChange)="filter($event)" type="text" style="margin-top: 18px" />
+  <!--<label class="control-label">{{ '資源類型' | translate }}</label>
+  <div style="display: inline-grid;width: 25%">
+    &lt;!&ndash;<dx-drop-down-box [(value)]="selectTypeList" activeStateEnabled="true" width="100%" showClearButton="true" valueExpr="typeCode" displayExpr="typeName" contentTemplate="content">
+      <div *dxTemplate="let data of 'content'">
+        <dx-tree-view [dataSource]="resourceTypeList" selectNodesRecursive="false" itemsExpr="items" keyExpr="id" displayExpr="typeName" selectionMode="multiple"
+        showCheckBoxesMode="normal" dataStructure="plain" activeStateEnabled="true" (onItemSelectionChanged)="onTreeViewSelectionChanged($event)">
+
+        </dx-tree-view>
+      </div>
+    </dx-drop-down-box>&ndash;&gt;
+    <dx-drop-down-box
+      [(value)]="selectTypeList"
+      activeStateEnabled="true"
+      width="100%"
+      showClearButton="true"
+      valueExpr="typeCode"
+      displayExpr="typeName"
+      contentTemplate="content"
+      [dataSource]="resourceArr"
+      (onValueChanged)="onDropDownBoxValueChanged($event)"
+    >
+      <div *dxTemplate="let data of 'content'">
+        <dx-tree-view
+          [dataSource]="resourceArr"
+          [selectNodesRecursive]="false"
+          keyExpr="typeCode"
+          parentIdExpr="parentCode"
+          rootValue="0"
+          displayExpr="typeName"
+          selectionMode="multiple"
+          showCheckBoxesMode="normal"
+          dataStructure="plain"
+          activeStateEnabled="true"
+          (onContentReady)="onTreeViewReady($event)"
+          (onItemSelectionChanged)="onTreeViewSelectionChanged($event)"
+        >
+        </dx-tree-view>
+      </div>
+    </dx-drop-down-box>
+  </div>
+  <button type="button" class="static smallBtn btn btn-xs" (click)="search()" style="margin-top: -10px;height: 37px;vertical-align: middle">
+    <i class="newicon icon-search1 font-size18"></i>
+    <span>{{ '搜索' | translate}}</span>
+  </button>-->
+
+  <div class="contentType resourceTypeContent unitTablePnl" style="height: auto">
+    <dx-tree-list
+      [dataSource]="resourceTypeList"
+      dataStructure="tree"
+      id="resourceTypeList"
+      itemsExpr="items"
+      keyExpr="typeCode"
+      height="790"
+      showRowLines="true"
+      showBorders="true"
+      [expandedRowKeys]="['4000000']"
+    >
+      <!--<dxo-search-panel visible="true" width="250" ></dxo-search-panel>-->
+      <dxi-column dataField="typeName" caption="資源類型名稱" [width]="500"></dxi-column>
+      <dxi-column dataField="typeCode" caption="代碼" [width]="400"></dxi-column>
+      <dxi-column dataField="note" caption="描述" [width]="500"></dxi-column>
+      <dxi-column caption="操作" [width]="200" cellTemplate="option">
+        <div *dxTemplate="let item of 'option'" style="text-align: right">
+          <button *ngIf="checkCanAdd(item)" class="btn btn-detail btn-primary btn-xs correlate" (click)="addResourceType(item)">
+            <i class="icon-add icon-font-size20" title="{{ '新增' }}"></i>
+          </button>
+          <button *ngIf="checkCanEditOrDel(item)" class="btn btn-detail btn-primary btn-xs correlate" (click)="updateResourceType(item)">
+            <i class="icon-Edit1 icon-font-size20" title="{{ '編輯' }}"></i>
+          </button>
+          <button *ngIf="checkCanEditOrDel(item)" class="btn btn-del btn-xs correlate">
+            <i class="icon-del icon-font-size20" title="{{ '删除' }}" (click)="clk_del(item)"></i>
+          </button>
+        </div>
+      </dxi-column>
+    </dx-tree-list>
+  </div>
+</div>
+
+<!--用戶確認彈窗-->
+<mf-confirm-new (onChoseClick)="chose_clk($event)"></mf-confirm-new>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px'}"></ngx-loading>
+
+<dx-popup class="popup" [width]="800" [height]="315" title="{{ '添加資源類型' | translate}}" [dragEnabled]="false" [closeOnOutsideClick]="true"
+          [(visible)]="popAddVisible">
+  <div *dxTemplate="let data of 'content'">
+    <div *ngIf="popAddVisible">
+      <form #f="ngForm" (ngSubmit)="clk_submit()" class="form-horizontal formContent form-right">
+        <fieldset>
+          <div class="form-group">
+            <label class="control-label col-sm-2 label-btm">{{'資源名稱'|translate}}<em class="requireTip">*</em></label>
+            <div class="col-sm-4">
+              <input maxlength="100" [(ngModel)]="typeModel.typeName" type="text" class="col-sm-12" name="name" #name="ngModel" required>
+              <span *ngIf="name.errors && (name.dirty||name.touched)" class="validate-message">
+              <span [hidden]="!name.errors.required" >{{'資源名稱不能為空'|translate}}</span>
+            </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2 label-btm">{{'父資源名稱'|translate}}<em class="requireTip">*</em></label>
+            <div class="col-sm-4">
+              <span style="float:left;">{{currentParentName}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2 textArea_label">{{'描述'|translate}}</label>
+            <div class="col-sm-10">
+        <textarea name="notes1" maxlength="4000" [(ngModel)]="typeModel.note" type="text" class="col-sm-12" id="notes">
+            </textarea>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+      <div class="modal-footer">
+        <button (click)="clk_submit()" [disabled]="!f.form.valid" type="submit" class="smallBtn btn btn-primary"><i class="newicon icon-Submit font-size22"></i>{{'Common.submit'|translate}}</button>
+        <button (click)="close()" style="background-color: #f0f0f0" type="reset" class="btn smallBtn btn-default"><i class="newicon icon-Cancel-29 font-size22"></i><span>{{'Common.cancel'|translate}}</span></button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

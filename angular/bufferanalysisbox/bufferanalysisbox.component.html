@@ -1,0 +1,26 @@
+<div [hidden]="hidden">
+  <div class="buffcontentAnaly">
+      <ul class="listAll">
+        <!--<li *ngFor="let navData of navDatas; let i = index" class="{{navData.navClass}}" (click)="navClick(i)">-->
+        <!--{{navData.con}}-->
+
+        <!--</li>-->
+        <li class="addactive" (click)="emergency()" title="{{'Bufferanalysisbox.emergencyShelter'|translate}}"><i class="icon-Emergency-shelter-img"></i></li>
+        <li (click)="medical()" title="{{'Bufferanalysisbox.medicalAnalysis'|translate}}"><i class="icon-Medical-institutions"></i></li>
+        <li (click)="protectionTarget()" title="{{'Bufferanalysisbox.protectionTargetAnalysis'|translate}}"><i class="icon-Protection-goal"></i></li>
+        <li (click)="hazards()" title="{{'Bufferanalysisbox.hazardAnalysis'|translate}}"><i class="icon-Source-of-risk"></i></li>
+        <li (click)="rallypoint()" title="{{'rallypoint.rallypointAnalysis' | translate}}"><i class="icon-Assembly-point-img"></i></li>
+        <li (click)="depot()" title="{{'depot.depotAnalysis' | translate}}"><i class="icon-Parking"></i></li>
+        <li (click)="elderlycenter()" title="{{'elderlycenter.elderlycenterAnalysis' | translate}}"><i class="icon-Elderly-Center"></i></li>
+        <li style="display:none;" (click)="video()" title="{{'Bufferanalysisbox.hazardAnalysis'|translate}}"><i class="icon-Monitoring" id="bufferVideoBtn" ></i>
+        </li>
+        <li (click)="loudspeaker()" title="{{'loudspeaker.loudspeakerAnalysis' | translate}}"><i class="icon-Big-horn"></i></li>
+        <li (click)="screen()" title="{{'screen.screenAnalysis' | translate}}"><i class="icon-Display"></i></li>
+        <li (click)="evacuation()" title="{{'screen.evacueeAnalysis' | translate}}"><i class="icon-Evacuation"></i></li>
+      </ul>
+  </div>
+</div>
+<div class="bufferCommonPnl">
+  <app-common-buffer>
+  </app-common-buffer>
+</div>

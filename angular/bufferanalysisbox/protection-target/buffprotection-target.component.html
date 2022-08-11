@@ -1,0 +1,58 @@
+<div [hidden]="hidden" id="buffprotectionTargetPeriAnalysisPopup" class="bufferprotectionTarget peri_analysis_popup">
+
+    <div class="popup_style buffprotectionTargetHeader"> 
+            <span><i class="icon-Protection-goal"></i>{{'Bufferanalysisbox.medicalAnalysis'|translate}}</span>
+            <i class="icon-Close1" (click)='submitCancel()'></i>  
+  </div>
+
+  <nav id="mainnav-container">
+    <div id="mainnav">
+      <div class="emergen">
+        <div class="col-sm-12 bufferTypePnl">
+          <div (click)="plotPolyPoint()" >
+            <i class="icon-Stops"></i>
+            <p>{{'Bufferanalysisbox.drawSome'|translate}}</p>
+          </div>
+          <div (click)="plotPolyline()" >
+            <i class="icon-Obstacle-line"></i>
+            <p>{{'Bufferanalysisbox.lineDrawing'|translate}}</p>
+          </div>
+          <div (click)="plotPolygon()" >
+            <i class="icon-Obstacle-surface"></i>
+            <p>{{'Common.polygon'|translate}}</p>
+          </div>
+        </div>
+        <!--<div class="protectionRadius">经度：<span class="targetX" style="margin-right: 10px;"></span>纬度：<span class="targetY" ></span></div>-->
+        <div class="dx-field col-sm-12 clean_float">
+          <label class="control-label dx-field-label col-sm-3" >{{'Bufferanalysisbox.defaultRadius'|translate}}</label>
+          <dx-number-box #numberBox  
+                           class="col-sm-6"
+                           [max]="5"
+                           [min]="1"
+                           [showSpinButtons]="true"
+                           [(value)]="radus"
+                           (input)='change()' (porpertychange)="change()"
+                           id="numberBeault"
+            ></dx-number-box>
+            <span class="sol-sm-1 bufferUnit">km</span>
+        </div>
+        <div class="medicalRadius col-sm-12">
+          <label class="control-label col-sm-3" >{{'Common.longitude'|translate}}</label>
+          <input name="targetLo" class="targetLo col-sm-7" type="text" />
+        </div>
+        <div class="medicalRadius col-sm-12">
+          <label class="control-label col-sm-3" >{{'Common.latitude'|translate}}</label>
+          <input type="text" name="targetLa" class="targetLa col-sm-7" type="text" />
+        </div>
+      </div>
+      <div class="clean_float peri_analy_btns">
+        <div>
+          <div class="dx-field dx_btn_bottom">
+             <dx-button class="dx_btn_submit" icon="newicon icon-ic_search" [text]="Query.text" [type]="Query.type" (click)="query()"></dx-button>
+             <dx-button class="dx_btn_cancel" icon="newicon icon-Cancel-29" text="{{'Common.cancel'|translate}}" [type]="Query.type" (click)="submitCancel()"></dx-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

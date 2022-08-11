@@ -1,0 +1,55 @@
+<div [hidden]="hidden" id="buffemergenryPeriAnalysisPopup" class="bufferemergenry peri_analysis_popup" >
+    <div class="popup_style buffemergenryHeader"> 
+            <span><i class="icon-Emergency-shelter"></i>{{'Bufferanalysisbox.emergencyShelter'|translate}}</span>
+            <i class="icon-Close1" (click)='hideme()'></i>
+    </div>
+    <div class=""></div>
+  <nav id="mainnav-container">
+    <div id="mainnav">
+      <div class="emergen">
+        <div class="col-sm-12 bufferTypePnl">
+            <div (click)="plotPolyPoint()" >
+            <i class="icon-Stops"></i>
+            <p>{{'Bufferanalysisbox.drawSome'|translate}}</p>
+          </div>
+          <div (click)="plotPolyline()" >
+            <i class="icon-Obstacle-line"></i>
+            <p>{{'Bufferanalysisbox.lineDrawing'|translate}}</p>
+          </div>
+          <div (click)="plotPolygon()" >
+            <i class="icon-Obstacle-surface"></i>
+            <p>{{'Common.polygon'|translate}}</p>
+          </div>
+        </div>
+        <div class="dx-field col-sm-12 clean_float">
+              <label class="control-label dx-field-label col-sm-3">{{'Bufferanalysisbox.defaultRadius'|translate}}</label>
+              <dx-number-box #numberBox class="col-sm-6"
+                               [max]="5"
+                               [min]="1"
+                               [showSpinButtons]="true"
+                               [(value)]="raduw"
+                               (input)='change()' (porpertychange)="change()"
+                               id="numberBeault"
+                ></dx-number-box>
+               <span class="sol-sm-1 bufferUnit ">km</span>
+        </div>
+        <div class="medicalRadius col-sm-12">
+          <label class="control-label col-sm-3" >{{'Common.longitude'|translate}}</label>
+          <input name="valueLo" class="valueLo col-sm-7" type="text" />
+        </div>
+        <div class="medicalRadius col-sm-12">
+          <label class="control-label col-sm-3" >{{'Common.latitude'|translate}}</label>
+          <input type="text" name="valueLa" class="valueLa col-sm-7" type="text" />
+        </div>
+      </div>
+      <div class="clean_float peri_analy_btns">
+        <div>
+          <div class="dx-field dx_btn_bottom">
+             <dx-button class="dx_btn_submit" icon="newicon icon-ic_search" [text]="Query.text" [type]="Query.type" (click)="query()"></dx-button>
+             <dx-button class="dx_btn_cancel" icon="newicon icon-Cancel-29" text="{{'Common.cancel'|translate}}" [type]="Query.type" (click)="submitCancel()"></dx-button>
+          </div>
+      </div>
+    </div>
+    </div>
+  </nav>
+</div>

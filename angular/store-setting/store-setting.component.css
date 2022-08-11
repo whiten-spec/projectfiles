@@ -1,0 +1,16 @@
+
+.store-total .head {
+    height: 50px;
+    background-color: #fff;
+    line-height: 50px;
+    margin-bottom: 10px;
+}
+.store-total .head>span {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    cursor: pointer;
+}
+.store-total .head .has_bottom_border {
+    border-bottom: 4px #00785d solid;
+}

@@ -1,0 +1,161 @@
+<style>
+
+  .titleIcon{
+
+     text-align: left;
+  }
+
+/deep/ .dx-datagrid-content .dx-datagrid-table .dx-row > td {
+  vertical-align: middle;
+}
+
+</style>
+<div [hidden]="hidden" id="buffemergenryPeriAnalysisPopup" class="bussisFloatWindow bufferemergenry peri_analysis_popup">
+  <div class="popup_style buffemergenryHeader">
+    <span><i class="titleIcon"></i>{{ funName |translate}}</span>
+    <i class="icon-Close1" (click)='hideme()'></i>
+  </div>
+  <div class=""></div>
+  <div class="navAndBuf">
+    <nav id="mainnav-container">
+      <div id="mainnav">
+        <div class="emergen">
+          <div class="col-sm-12 bufferTypePnl">
+            <div title="{{'Bufferanalysisbox.search'|translate}}" *ngIf="plotType.search&&isVideo" (click)="plotPolySearch($event)">
+              <i class="icon-search1"></i>
+              <!-- <p>{{'Bufferanalysisbox.drawSome'|translate}}</p> -->
+            </div>
+            <div title="{{'Bufferanalysisbox.drawSome'|translate}}" *ngIf="plotType.point" (click)="plotPolyPoint($event)">
+              <i class="icon-Stops"></i>
+              <!-- <p>{{'Bufferanalysisbox.drawSome'|translate}}</p> -->
+            </div>
+            <div title="{{'Bufferanalysisbox.lineDrawing'|translate}}" *ngIf="plotType.line" (click)="plotPolyline($event)">
+              <i class="icon-Obstacle-line"></i>
+              <!-- <p>{{'Bufferanalysisbox.lineDrawing'|translate}}</p> -->
+            </div>
+            <div title="{{'Bufferanalysisbox.round'|translate}}" *ngIf="plotType.round" (click)="plotRound($event)">
+              <i class="icon-round"></i>
+              <!-- <p>{{'Bufferanalysisbox.round'|translate}}</p> -->
+            </div>
+            <div title="{{'Bufferanalysisbox.retangular'|translate}}" *ngIf="plotType.rectangle" (click)="plotRectangle($event)">
+              <i class="icon-rectangle"></i>
+              <!-- <p>{{'Bufferanalysisbox.retangular'|translate}}</p> -->
+            </div>
+            <div title="{{'Common.Sector'|translate}}" *ngIf="plotType.sector" (click)="plotSector($event)">
+              <i class="icon-sector"></i>
+              <!-- <p>{{'Common.Sector'|translate}}</p> -->
+            </div>
+            <div title="{{'Bufferanalysisbox.freeArea'|translate}}" *ngIf="plotType.freeArea" (click)="plotFreeArea($event)">
+              <i class="icon-Free-graphics"></i>
+              <!-- <p>{{'Bufferanalysisbox.freeArea'|translate}}</p> -->
+            </div>
+            <div title="{{'Common.polygon'|translate}}" *ngIf="plotType.polygon" (click)="plotPolygon($event)">
+              <i class="icon-Obstacle-surface"></i>
+              <!-- <p>{{'Common.polygon'|translate}}</p> -->
+            </div>
+          </div>
+          <div>
+            <div class="control-label col-sm-3 type_style">{{ 'QueryAnalysis.type' | translate }}</div>
+            <div class="col-sm-11 resourctTypePnl">
+              <span *ngFor="let shelterType of resourceTypes" class="check_boxs ">
+                    <input type="checkbox" [id]="shelterType.code" [(ngModel)]="shelterType.selectItem" name="icheck">
+                    <label for="{{shelterType.code}}" style="margin-left: 13px; float: none; font-size: 20px" id="typeName">{{shelterType.name}}</label>
+                </span>
+            </div>
+          </div>
+          <div class="medicalRadius col-sm-12">
+            <label class="control-label col-sm-4">{{ 'Bufferanalysisbox.keyWord' | translate }} </label>
+            <input type="text" (keydown)="enterKeyMethod($event)" class="col-sm-6 keyWord_box" [(ngModel)]="keyWord" id="searchName">
+          </div>
+          <!-- 去掉 dx-field-label  -->
+          <div class="radiusD dx-field col-sm-12 medicalRadius clean_float">
+            <label class="control-label  col-sm-4 fontfam">{{'Bufferanalysisbox.defaultRadius'|translate}}</label>
+            <dx-number-box #numberBox class="col-sm-6" [max]="10000" [min]="1" [showSpinButtons]="true" [(value)]="raduw" (input)='change()'
+              (porpertychange)="change()" (onEnterKey)="query()"  id="numberBeault"></dx-number-box>
+            <span class="sol-sm-1 bufferUnit ">M</span>
+          </div>
+          <div class="XYPnl medicalRadius col-sm-12">
+            <label class="control-label col-sm-4">{{'Common.longitude'|translate}}</label>
+            <input onkeyup="this.value=this.value.replace(/[^\-\d.]/g,'');if(this.value>180 || this.value<-180){this.value=''} " name="valueLo"
+              class="valueLo col-sm-6" type="text" />
+          </div>
+          <div class="XYPnl medicalRadius col-sm-12">
+            <label class="control-label col-sm-4">{{'Common.latitude'|translate}}</label>
+            <input onkeyup="this.value=this.value.replace(/[^\-\d.]/g,'');if(this.value>90 || this.value<-90){this.value=''} " type="text"
+              name="valueLa" class="valueLa col-sm-6" type="text" />
+          </div>
+        </div>
+        <div class="clean_float peri_analy_btns">
+          <div>
+            <div class="dx-field dx_btn_bottom">
+              <dx-button class="dx_btn_submit" icon="newicon icon-ic_search" [text]="Query.text" [type]="Query.type" (click)="query()"></dx-button>
+              <dx-button class="dx_btn_cancel" icon="newicon icon-Cancel-29" text="{{'Common.cancel'|translate}}" [type]="Query.type" (click)="submitCancel()"></dx-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="bufferDataPnl">
+      <div class="right_top_btn_box">
+        <span [hidden]="!isLoudSpeaker" class="right_top_btn " (click)="pushLoudSpeaker()"><i class="icon-ic_submit"></i>推送到預警</span>
+        <!-- <span [hidden]="!isLoudSpeaker" class="btn_popup_title btn_popup_title_submit" (click)="pushLoudSpeaker()"><i class="icon-ic_submit"></i>推送到預警</span> -->
+        <span *ngIf="isVideo" style="position: relative;right: 16px;"> 一共有{{NumberOfCameras}}個攝像頭</span>
+        <span class="right_top_btn btnReturnAna" (click)="return_clk()"><i class="icon-return1"></i>{{ 'Common.return' | translate }}</span>
+      </div>
+      <dx-data-grid
+      [visible]="!isVideo"
+       [dataSource]="dataResult"
+        [showColumnLines]="true"
+        [showRowLines]="true"
+         [showBorders]="true"
+        [height]="450"
+         [hoverStateEnabled]="true">
+        <dxo-pager [showPageSizeSelector]="false" [visible]="false" [showInfo]="true"></dxo-pager>
+        <dxo-paging [pageSize]="16" [enabled]="false"></dxo-paging>
+        <dxi-column dataField="resname.value" caption="{{'bufferAna.name' | translate }}"></dxi-column>
+        <dxi-column dataField="resType" caption="{{'bufferAna.type' | translate }}"></dxi-column>
+        <!-- <dxi-column dataField="districtName" caption="{{'Common.districtName' | translate }}"></dxi-column> -->
+        <dxi-column dataField="resaddr.value" caption="{{'dataVisuali.address' | translate }}"></dxi-column>
+        <dxi-column caption="{{'Common.operation' | translate}}" dataField="rescode.value" [allowFiltering]="false"
+          [allowSorting]="false" cellTemplate="cellTemplate"></dxi-column>
+        <div *dxTemplate="let data of 'cellTemplate' ">
+          <span *ngIf="data.data.x.value!=null" (click)="Location(data.data)"   title="{{data.data.x.value.toFixed(6)}},{{data.data.y.value.toFixed(6)}}" class="icon-Coordinate-positioning table_icons icon_size26 btn_blue"></span>
+          <span *ngIf="data.data.x.value==null"  class="icon-Coordinate-positioning table_icons icon_size26 btn_blue"></span>
+        </div>
+      </dx-data-grid>
+      <dx-data-grid [visible]="isVideo" [dataSource]="dataResult" [showColumnLines]="true" [showRowLines]="true" [showBorders]="true"
+      [height]="450" [hoverStateEnabled]="true" [wordWrapEnabled]="true">
+      <dxo-pager [showPageSizeSelector]="false" [visible]="false" [showInfo]="true"></dxo-pager>
+      <dxo-paging [pageSize]="16" [enabled]="false"></dxo-paging>
+      <dxi-column dataField="resname.value" [width]=100 caption="{{'bufferAna.name' | translate }}"></dxi-column>
+      <dxi-column dataField="resaddr.value" caption="{{'dataVisuali.address' | translate }}"></dxi-column>
+      <dxi-column dataField="rescode.value" [width]=80 caption="{{'Common.operation' | translate}}" [allowFiltering]="false"
+        [allowSorting]="false" cellTemplate="cellTemplate"></dxi-column>
+      <div *dxTemplate="let data of 'cellTemplate' ">
+        <span *ngIf="data.data.x.value!=null" (click)="Location(data.data)"   title="{{data.data.x.value.toFixed(6)}},{{data.data.y.value.toFixed(6)}}" class="icon-Coordinate-positioning table_icons icon_size26 btn_blue"></span>
+        <span *ngIf="data.data.x.value==null"  class="icon-Coordinate-positioning table_icons icon_size26 btn_blue" style="opacity: 0;cursor: default;"></span>
+        <span>
+            <span (click)="videoPlay(data.data)" class="icon-Video-playback-1 table_icons btn_blue icon_size26"></span>
+        </span>
+        <!-- <span>
+          <span (click)="histryVideo(data.data)" class="icon-judge-history table_icons btn_blue icon_size26"></span>
+        </span> -->
+      </div>
+    </dx-data-grid>
+    </div>
+  </div>
+</div>
+
+
+<div>
+  <app-pushLoudSpeakerComponent></app-pushLoudSpeakerComponent>
+</div>
+<!--
+<div class="realTimeVideo">
+  <app-videoShow></app-videoShow>
+</div> -->
+
+<!-- <app-Videohistory (playHistoryVideoE)="playHistoryVideo_clk($event)">
+  <app-Videohistory> -->
+

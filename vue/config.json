@@ -1,0 +1,93 @@
+{
+    "beans": [
+        {
+            "//": "需要注入的属性",
+            "id": "PathAnalysisComponent",
+            "properties": [
+                {
+                    "//": "网络分析服務",
+                    "name": "networkUrl",
+                    "value": {
+                        "gisview_bjPlaceUrl": "http://172.17.10.168:8080/fusionGIS_bj/featureClass/query?key=gw123456&tableName=bj_poi",
+                        "gisview_cgs2000PlaceUrl": "http://172.17.10.168:8080/fusionGIS_cgs/featureClass/query?key=gw123456&tableName=cgs_poi"
+                    }
+                },
+                {
+                    "name": "pathAnalysisService",
+                    "value": "${PathAnalysisService}"
+                }
+            ]
+        },
+        {
+            "//": "需要注入的属性",
+            "id": "NavListView",
+            "properties": [
+                {
+                    "//": "属性值，${BeanId}可以注入其他的bean对象",
+                    "name": "mainView",
+                    "value": "${MainView}"
+                }
+            ]
+        },
+        {
+            "//": "需要注入的属性",
+            "id": "PathAnalysisService",
+            "properties": [
+                {
+                    "//": "属性值，${BeanId}可以注入其他的bean对象",
+                    "name": "networkUrl",
+                    "value": {
+                        "networkServiceUrl": "http://172.17.10.194:8080/fusionGIS/networkAnalysis",
+                        "featureClassServiceUrl": "http://172.17.10.194:8080/fusionGIS/featureClass",
+                        "placeSearchServiceUrl": "http://172.17.10.194:8080/geocoder/place"
+                    }
+                }
+            ]
+        },
+        {
+            "//": "需要注入的属性",
+            "id": "AddStopView",
+            "properties": [
+                {
+                    "name": "pathAnalysisService",
+                    "value": "${PathAnalysisService}"
+                }
+            ]
+        },
+        {
+            "//": "需要注入的属性",
+            "id": "MainView",
+            "properties": [
+                {
+                    "//": "属性值，${BeanId}可以注入其他的bean对象",
+                    "name": "addStopView",
+                    "value": "${AddStopView}"
+                }
+            ]
+        },
+        {
+            "//": "需要注入的属性",
+            "id": "PathAnalysisDispatcher",
+            "properties": [
+                {
+                    "//": "属性值，${BeanId}可以注入其他的bean对象",
+                    "name": "addStopView",
+                    "value": "${AddStopView}"
+                },
+                {
+                    "//": "属性值，${BeanId}可以注入其他的bean对象",
+                    "name": "mainView",
+                    "value": "${MainView}"
+                },
+                {
+                    "name": "navListView",
+                    "value": "${NavListView}"
+                },
+                {
+                    "name": "pathAnalysisComponent",
+                    "value": "${PathAnalysisComponent}"
+                }
+            ]
+        }
+    ]
+}
